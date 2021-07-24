@@ -17,11 +17,16 @@ export default function App() {
 
   const handleAddTask = () => {
     Keyboard.dismiss();
-    setTasks([...tasks, task]);
+    const Task = {
+      title: task,
+      completed: false,
+    };
+
+    setTasks([...tasks, Task]);
     setTask(null);
   };
 
-  const completeTask = (index) => {
+  const deleteTask = (index) => {
     let itemsCopy = [...tasks];
     itemsCopy.splice(index, 1);
     setTasks(itemsCopy);
@@ -34,18 +39,20 @@ export default function App() {
         <View style={styles.items}>
           {tasks.length ? (
             <FlatList
-              keyExtractor={(item, index) => item}
+              keyExtractor={(item, index) => item.title}
               data={tasks}
               renderItem={({ item, index }) => {
                 return (
-                  <TouchableOpacity onPress={() => completeTask(index)}>
-                    <Task title={item} />
-                  </TouchableOpacity>
+                  <Task
+                    Index={index}
+                    Title={item.title}
+                    handleDelete={deleteTask}
+                  />
                 );
               }}
             />
           ) : (
-            <Text style={styles.emptyText}>List is empty.</Text>
+            <Text style={styles.emptyText}>Todo List is empty.</Text>
           )}
         </View>
       </View>
@@ -61,7 +68,7 @@ export default function App() {
         />
         <TouchableOpacity onPress={() => handleAddTask()}>
           <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
+            <Text style={styles.addText}>Add</Text>
           </View>
         </TouchableOpacity>
       </KeyboardAvoidingView>
@@ -86,19 +93,20 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   emptyText: {
-    paddingVertical: 200,
     fontSize: 18,
-    textAlign: "center",
+    alignSelf: "center",
+    lineHeight: 550,
   },
   writeTaskWrapper: {
     position: "absolute",
-    bottom: 60,
+    bottom: 25,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
   },
   input: {
+    height: 50,
     paddingVertical: 15,
     paddingHorizontal: 15,
     backgroundColor: "#FFF",
@@ -108,10 +116,10 @@ const styles = StyleSheet.create({
     width: 250,
   },
   addWrapper: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 50,
     backgroundColor: "#FFF",
-    borderRadius: 60,
+    borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
     borderColor: "#C0C0C0",

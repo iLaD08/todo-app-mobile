@@ -1,13 +1,14 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Image, Text, View, TouchableOpacity } from "react-native";
 
-const Task = ({ title }) => (
+const Task = ({ Index, Title, handleDelete }) => (
   <View style={styles.item}>
     <View style={styles.itemLeft}>
-      <TouchableOpacity style={styles.square}></TouchableOpacity>
-      <Text style={styles.itemText}>{title}</Text>
+      <Text style={styles.itemText}>{Title}</Text>
     </View>
-    <View style={styles.circular}></View>
+    <TouchableOpacity onPress={() => handleDelete(Index)}>
+      <Image style={styles.tinyLogo} source={require("../assets/delete.png")} />
+    </TouchableOpacity>
   </View>
 );
 
@@ -26,16 +27,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: "wrap",
   },
-  square: {
-    width: 24,
-    height: 24,
-    backgroundColor: "#55BCF6",
-    opacity: 0.4,
-    borderRadius: 5,
-    marginRight: 15,
-  },
+
   itemText: {
-    maxWidth: "80%",
+    maxWidth: "100%",
   },
   circular: {
     width: 12,
@@ -43,6 +37,10 @@ const styles = StyleSheet.create({
     borderColor: "#55BCF6",
     borderWidth: 2,
     borderRadius: 5,
+  },
+  tinyLogo: {
+    width: 20,
+    height: 20,
   },
 });
 
