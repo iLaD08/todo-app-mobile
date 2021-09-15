@@ -3,6 +3,7 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
   Text,
+  Image,
   View,
   FlatList,
   TextInput,
@@ -39,7 +40,7 @@ export default function App() {
         <View style={styles.items}>
           {tasks.length ? (
             <FlatList
-              keyExtractor={(item, index) => item.title}
+              keyExtractor={(item) => item.title}
               data={tasks}
               renderItem={({ item, index }) => {
                 return (
@@ -52,14 +53,21 @@ export default function App() {
               }}
             />
           ) : (
-            <Text style={styles.emptyText}>Todo List is empty.</Text>
+            <View style={styles.emptyView}>
+              <Image
+                style={styles.emptyLogo}
+                source={require("./assets/empty.png")}
+              />
+              <Text>No tasks to show</Text>
+            </View>
           )}
         </View>
       </View>
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.writeTaskWrapper}>
+        style={styles.writeTaskWrapper}
+      >
         <TextInput
           style={styles.input}
           placeholder={"Write a task"}
@@ -68,7 +76,7 @@ export default function App() {
         />
         <TouchableOpacity onPress={() => handleAddTask()}>
           <View style={styles.addWrapper}>
-            <Text style={styles.addText}>Add</Text>
+            <Text style={styles.addText}>+</Text>
           </View>
         </TouchableOpacity>
       </KeyboardAvoidingView>
@@ -82,7 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#E8EAED",
   },
   tasksWrapper: {
-    paddingTop: 80,
+    paddingTop: 60,
     paddingHorizontal: 20,
   },
   sectionTitle: {
@@ -92,10 +100,14 @@ const styles = StyleSheet.create({
   items: {
     marginTop: 30,
   },
-  emptyText: {
-    fontSize: 18,
-    alignSelf: "center",
-    lineHeight: 550,
+  emptyView: {
+    height: 550,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyLogo: {
+    width: 150,
+    height: 150,
   },
   writeTaskWrapper: {
     position: "absolute",
@@ -116,14 +128,16 @@ const styles = StyleSheet.create({
     width: 250,
   },
   addWrapper: {
-    width: 80,
+    width: 50,
     height: 50,
     backgroundColor: "#FFF",
-    borderRadius: 8,
+    borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
     borderColor: "#C0C0C0",
     borderWidth: 1,
   },
-  addText: {},
+  addText: {
+    fontSize: 20,
+  },
 });
